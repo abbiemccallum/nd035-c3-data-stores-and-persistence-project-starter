@@ -4,6 +4,7 @@ import com.udacity.jdnd.course3.critter.pet.Pet;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -19,7 +20,7 @@ public class Customer {
 
     //map one customer to many pets
     @OneToMany(mappedBy = "customer", targetEntity = Pet.class, cascade = CascadeType.ALL)
-    private List<Pet> pets = new ArrayList<>();
+    private List<Pet> pets;
 
     public Long getId() {
         return id;
@@ -39,6 +40,13 @@ public class Customer {
 
     public List<Pet> getPets() {
         return pets;
+    }
+    public void addPet(Pet pet) {
+        if (pets == null) {
+            pets = new ArrayList<>();
+        }
+
+        pets.add(pet);
     }
 
     public void setId(Long id) {

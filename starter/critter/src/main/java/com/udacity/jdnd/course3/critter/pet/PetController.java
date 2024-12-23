@@ -23,7 +23,10 @@ public class PetController {
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
         Pet pet = convertPetDTOToEntity(petDTO);
-        Pet newPet = petService.savePet(pet, petDTO.getOwnerId());
+
+        Customer customer = customerService.getCustomer(petDTO.getOwnerId());
+        pet.setCustomer(customer);
+        Pet newPet = petService.savePet(pet);
         return convertEntitytoPetDTO(newPet);
     }
 
@@ -54,6 +57,7 @@ public class PetController {
     private PetDTO convertEntitytoPetDTO(Pet pet){
         PetDTO petDTO = new PetDTO();
         BeanUtils.copyProperties(pet, petDTO);
+        petDTO.setOwnerId(pet.getCustomer().getId());
         return petDTO;
     }
 

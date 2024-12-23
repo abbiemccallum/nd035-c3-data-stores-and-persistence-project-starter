@@ -12,6 +12,7 @@ import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Handles web requests related to Users.
@@ -38,29 +39,6 @@ public class UserController {
         Customer newCustomer = customerService.saveCustomer(customer);
         return convertEntitytoCustomerDTO(newCustomer);
     }
-
-    // Customer DTO conversions
-    private Customer convertCustomerDTOToEntity(CustomerDTO customerDTO){
-        Customer customer = new Customer();
-        BeanUtils.copyProperties(customerDTO, customer);
-        return customer;
-    }
-
-    private CustomerDTO convertEntitytoCustomerDTO(Customer customer){
-        CustomerDTO customerDTO = new CustomerDTO();
-        BeanUtils.copyProperties(customer, customerDTO);
-        return customerDTO;
-    }
-
-    private List<CustomerDTO> convertListtoCustomerDTO(List<Customer> customers){
-        List<CustomerDTO> customerDTO = new ArrayList<>();
-            for (Customer customer : customers) {
-                customerDTO.add(convertEntitytoCustomerDTO(customer));
-
-        }
-        return customerDTO;
-    }
-
 
     @GetMapping("/customer")
     public List<CustomerDTO> getAllCustomers(){
@@ -97,11 +75,41 @@ public class UserController {
 
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        DayOfWeek dayOfWeek = employeeDTO.getDate().getDayOfWeek();
+        Set<EmployeeSkill> skills = employeeDTO.getSkills();
+
+        List<Employee> availableEmployees = employeeService.getAvailableEmployeesForService(dayOfWeek,skills);
+        return convertListtoEmployeeDTO(availableEmployees);
     }
 
-    // Employee DTOs
+    // Customer DTO conversions
+    private Customer convertCustomerDTOToEntity(CustomerDTO customerDTO){
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customerDTO, customer);
+        return customer;
+    }
 
+    private CustomerDTO convertEntitytoCustomerDTO(Customer customer){
+        CustomerDTO customerDTO = new CustomerDTO();
+        BeanUtils.copyProperties(customer, customerDTO);
+        if(customer.getPets() != null){
+            customerDTO.setPetIds(customer.getPets().stream().map(Pet :: getId).collect(Collectors.toList()));
+        }
+
+        return customerDTO;
+    }
+
+    private List<CustomerDTO> convertListtoCustomerDTO(List<Customer> customers){
+        List<CustomerDTO> customerDTO = new ArrayList<>();
+        for (Customer customer : customers) {
+            customerDTO.add(convertEntitytoCustomerDTO(customer));
+
+        }
+        return customerDTO;
+    }
+
+
+    // Employee DTOs
     private Employee convertEmployeeDTOToEntity(EmployeeDTO employeeDTO){
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO, employee);
@@ -112,5 +120,14 @@ public class UserController {
         EmployeeDTO employeeDTO = new EmployeeDTO();
         BeanUtils.copyProperties(employeeDTO, employeeDTO);
         return employeeDTO;
+    }
+
+    private List<EmployeeDTO> convertListtoEmployeeDTO(List<Employee> employees){
+        List<EmployeeDTO> employeeDTOS = new ArrayList<>();
+        for (Employee employee : employees) {
+            employeeDTOS.add(convertEntitytoEmployeeDTO(employee));
+
+        }
+        return employeeDTOS;
     }
 }

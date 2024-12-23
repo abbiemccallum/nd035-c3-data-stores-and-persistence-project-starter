@@ -37,10 +37,12 @@ public class PetService {
         return petRepository.findAll();
     }
 
-    public Pet savePet(Pet pet, long customerId) {
-        Customer customer = customerService.getCustomer(customerId);
-        pet.setCustomer(customer);
-        return petRepository.save(pet);
+    public Pet savePet(Pet pet) {
+        Pet existingPet = petRepository.save(pet);
+        Customer customer = existingPet.getCustomer();
+        customer.addPet(existingPet);
+        customerRepository.save(customer);
+        return existingPet;
     }
 
     public List<Pet> findPetsbyCustomer(long id){

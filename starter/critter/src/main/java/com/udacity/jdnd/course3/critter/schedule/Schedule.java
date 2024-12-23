@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Schedule {
+public class Schedule{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

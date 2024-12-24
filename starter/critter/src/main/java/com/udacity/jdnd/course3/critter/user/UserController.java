@@ -59,16 +59,16 @@ public class UserController {
         return convertEntitytoEmployeeDTO(newEmployee);
     }
 
-    @PostMapping("/employee/{employeeId}")
-    public EmployeeDTO getEmployee(@PathVariable Long employeeId) {
+    @GetMapping("/employee/{employeeId}")
+    public EmployeeDTO getEmployee(@PathVariable long employeeId) {
         Employee employee = employeeService.getEmployee(employeeId);
         return convertEntitytoEmployeeDTO(employee);
     }
 
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable Long employeeId) {
-        Employee employee = employeeService.getEmployee(employeeId);
-        employeeService.setEmployeeAvailability(employee, daysAvailable);
+//        Employee employee = employeeService.getEmployee(employeeId);
+        employeeService.setEmployeeAvailability(employeeId, daysAvailable);
     }
 
     @GetMapping("/employee/availability")
@@ -121,11 +121,11 @@ public class UserController {
     }
 
     private List<EmployeeDTO> convertListtoEmployeeDTO(List<Employee> employees){
-        List<EmployeeDTO> employeeDTOS = new ArrayList<>();
+        List<EmployeeDTO> employeeDTO = new ArrayList<>();
         for (Employee employee : employees) {
-            employeeDTOS.add(convertEntitytoEmployeeDTO(employee));
+            employeeDTO.add(convertEntitytoEmployeeDTO(employee));
 
         }
-        return employeeDTOS;
+        return employeeDTO;
     }
 }

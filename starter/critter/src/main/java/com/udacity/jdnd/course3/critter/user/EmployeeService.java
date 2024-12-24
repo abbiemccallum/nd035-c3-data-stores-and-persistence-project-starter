@@ -24,7 +24,8 @@ public class EmployeeService {
         return employeeRepository.findById(id).get();
     }
 
-    public void setEmployeeAvailability(Employee employee, Set<DayOfWeek> daysAvailable){
+    public void setEmployeeAvailability(Long employeeId, Set<DayOfWeek> daysAvailable){
+        Employee employee = employeeRepository.findById(employeeId).get();
         employee.setDaysAvailable(daysAvailable);
     }
 

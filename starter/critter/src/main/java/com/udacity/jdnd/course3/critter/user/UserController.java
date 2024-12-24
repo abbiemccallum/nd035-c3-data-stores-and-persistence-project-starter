@@ -30,8 +30,6 @@ public class UserController {
     PetService petService;
     @Autowired
     EmployeeService employeeService;
-    @Autowired
-    CustomerRepository customerRepository;
 
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){

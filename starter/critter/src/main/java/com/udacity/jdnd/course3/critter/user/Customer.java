@@ -19,7 +19,7 @@ public class Customer {
     private String notes;
 
     //map one customer to many pets
-    @OneToMany(mappedBy = "customer", targetEntity = Pet.class, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer", targetEntity = Pet.class, cascade = CascadeType.ALL)
     private List<Pet> pets;
 
     public Long getId() {

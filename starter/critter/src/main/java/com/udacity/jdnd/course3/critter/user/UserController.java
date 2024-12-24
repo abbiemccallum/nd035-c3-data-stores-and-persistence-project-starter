@@ -116,7 +116,7 @@ public class UserController {
 
     private EmployeeDTO convertEntitytoEmployeeDTO(Employee employee){
         EmployeeDTO employeeDTO = new EmployeeDTO();
-        BeanUtils.copyProperties(employeeDTO, employeeDTO);
+        BeanUtils.copyProperties(employee, employeeDTO);
         return employeeDTO;
     }
 

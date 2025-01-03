@@ -17,14 +17,14 @@ public class Schedule{
     private long id;
 
     //Many Employee's can have many schedules
-    @ManyToMany(targetEntity = Employee.class)
+    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Employee.class)
     private List<Employee> employees;
 
     //Many Pets to many Schedules
-    @ManyToMany(targetEntity = Pet.class)
+    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Pet.class)
     private List<Pet> pets;
     private LocalDate date;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<EmployeeSkill> activities;
 
     public Long getId() {

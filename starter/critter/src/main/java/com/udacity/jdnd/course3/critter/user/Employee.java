@@ -13,9 +13,9 @@ public class Employee {
     private long id;
 
     private String name;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<EmployeeSkill> skills;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<DayOfWeek> daysAvailable;
 
     public Long getId() {

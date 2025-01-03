@@ -30,7 +30,7 @@ public class EmployeeService {
     }
 
     public List<Employee> getAvailableEmployeesForService(DayOfWeek daysAvailable, Set<EmployeeSkill> employeeSkillSet ) {
-        List<Employee> employees = employeeRepository.findEmployeesByDaysAvailableAndSkills(daysAvailable, employeeSkillSet);
+        List<Employee> employees = employeeRepository.findEmployeesByDaysAvailableAndSkillsIn(daysAvailable, employeeSkillSet);
         List<Employee> availableEmployee = new ArrayList<>();
         for (Employee employee : employees) {
             if (employee.getSkills().containsAll(employeeSkillSet)) {
